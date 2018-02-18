@@ -9,21 +9,28 @@
           <!-- we can use the line below to see all of our data in our template -->
           <!-- with all the data we can then construct a more structured output -->
           <table border = 1>
-          <tr>
-            <th>id</th>
-            <th>Full Name</th>
-            <th>Email</th>
-            <th>Created At</th>
-            <th>Actions</th>
-            
-          </tr>
+            <tr>
+              <th>id</th>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Created At</th>
+              <th>Actions</th>
+            </tr>
         
-      
-            
-            
+            {% for friend in all_friends %}
+            <tr>
+              <td>{{friend.id}}</td>
+              <td><a href="/users/{{friend.id}}">{{friend.first_name}} {{friend.last_name}}</a></td>
+              <td>{{friend.email}}</td>
+              <td>{{friend.created_at}}</td>
+              <td><a href="/users/{{friend.id}}">Show</a> <a href="/users/{{friend.id}}/edit">Edit</a>
+                <a href="/users/{{friend.id}}/destroy">Delete</a></td>
+
+                
+            </tr>
+            {% endfor %}
           </table>
-          <a href="/users/new">Add User</a> 
-          <!-- <a href="/users/new">Add User</a>   -->
+          <a href="/users/new">Add User</a>
         </div>
       </body>
 </html>

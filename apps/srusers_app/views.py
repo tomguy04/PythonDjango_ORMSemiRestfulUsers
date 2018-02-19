@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from .models import User
 from django.shortcuts import render, HttpResponse, redirect
+from django.contrib import messages
 
 # the index function is called when root is visited
 def index(request):
@@ -15,13 +16,27 @@ def new(request):
     return render(request,'srusers_app/adduser.html')
 
 def create(request):
-    print "*********************IN CREATE"
-    u1 = User(first_name = request.POST['first_name'], last_name = request.POST['last_name'], email = request.POST['email'])
-    u1.save()
-    user_data = u1.id
-    user_path = '/users/'+str(user_data)
-    print "*********************user_path " + user_path
-    return redirect(user_path)
+    errors = User.objects.basic_validator(request.POST)
+    if len(errors):
+        for tag, error in errors.iteritems():
+            messages.error(request,error, extra_tags=tag)
+        return redirect('/users')
+    else:
+        u1 = User(first_name = request.POST['first_name'], last_name = request.POST['last_name'], email = request.POST['email'])
+        u1.save()
+        user_data = u1.id
+        user_path = '/users/'+str(user_data)
+        return redirect(user_path)
+
+
+# def create(request):
+#     print "*********************IN CREATE"
+#     u1 = User(first_name = request.POST['first_name'], last_name = request.POST['last_name'], email = request.POST['email'])
+#     u1.save()
+#     user_data = u1.id
+#     user_path = '/users/'+str(user_data)
+#     print "*********************user_path " + user_path
+#     return redirect(user_path)
     
 def show(request,uid):
     if request.method == 'GET':

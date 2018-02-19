@@ -6,6 +6,19 @@
       </head>
       <body>
         <div id = 'wrapper'>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li>
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                    {{ message }}
+                </li>
+                {% endfor %}
+            </ul>
+
+
+            
+            {% endif %}
           <!-- we can use the line below to see all of our data in our template -->
           <!-- with all the data we can then construct a more structured output -->
           <table border = 1>
